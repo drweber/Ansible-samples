@@ -1,0 +1,26 @@
+---
+# Installs and configures Tomcat 8
+
+- include: install.yml
+  tags:
+    - BARC_INSTALL
+    - BARC_INSTALL_BINARIES
+
+- include: add-user.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_USERS
+
+- include: configure-tomcat.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_BINARIES
+
+- include: configure-firewall.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_FIREWALL
+
+- include: register-role.yml
+  tags:
+    - BARC_ROLE_REGISTRATION

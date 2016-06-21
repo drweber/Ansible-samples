@@ -1,0 +1,35 @@
+---
+# Create a firewall service for tomcat 8 to configure the system firewall
+
+- name: generate firewall service for tomcat 8 - CentOS/firewalld
+  template:
+     src="etc/firewalld/services/tomcat8-http.xml.j2"
+    dest="/etc/firewalld/services/tomcat8-http.xml"
+  when: ansible_distribution == "CentOS"
+  notify: Restart Firewall - CentOS
+
+# Firewalld needs to be reloaded to detect new services
+# A handler in the previous task is used to prevent reloading the firewall where service files have not changed.
+- meta: flush_handlers
+
+- name: configure firewall rules for tomcat 8 service - CentOS/firewalld
+  firewalld:
+      service="tomcat8-http"
+    permanent=True
+        state=enabled
+  when: ansible_distribution == "CentOS"
+  notify: Restart Firewall - CentOS
+
+- name: generate firewall service for tomcat 8 - Ubuntu/UFW
+  template:
+     src=etc/ufw/applications.d/tomcat8.j2
+    dest=/etc/ufw/applications.d/tomcat8
+  when: ansible_distribution == "Ubuntu"
+
+- name: configure firewall rules for tomcat 8 service - Ubuntu/UFW
+  ufw:
+         name="tomcat8-http"
+         rule=allow
+    direction=in
+  when: ansible_distribution == "Ubuntu"
+  notify: Restart Firewall - Ubuntu
