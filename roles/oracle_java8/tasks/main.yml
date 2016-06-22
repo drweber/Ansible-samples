@@ -1,0 +1,30 @@
+---
+# tasks file for oracle_java8
+- name: determine if java is installed - CentOS
+  command: java -version
+  ignore_errors: true
+  changed_when: false
+  register: oracle_jdk8_fact_is_installed_centos
+
+- name: Install wget
+  package:
+    name: "{{item.name}}"
+    state: "{{item.state}}"
+  with_items:
+    - { name: wget, state: present }
+- name: download oracle jdk 8 installer - CentOS
+  command: "wget -O /tmp/oracle-jdk8-installer.rpm --no-cookies --no-check-certificate --header 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie' 'http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.rpm'"
+  args:
+    creates: /tmp/oracle-jdk8-installer.rpm
+  when: oracle_jdk8_fact_is_installed_centos.rc != 0
+
+- name: install oracle jdk 8 - CentOS
+  package:
+    name: /tmp/oracle-jdk8-installer.rpm
+    state: present
+  when: oracle_jdk8_fact_is_installed_centos.rc != 0
+
+- name: cleanup oracle jdk 8 installer - CentOS
+  file:
+    path=/tmp/oracle-jdk8-installer.rpm
+    state=absent

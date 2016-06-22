@@ -1,0 +1,8 @@
+---
+# tasks file for nginx
+- name: Install nginx
+  package:
+    name: "{{item.name}}"
+    state: "{{item.state}}"
+  with_items:
+    - { name: nginx, state: present }

@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  remote_user: root
-  roles:
-    - williamyeh.oracle-java
-    - ansible-role-jenkins

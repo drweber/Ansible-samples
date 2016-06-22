@@ -1,0 +1,6 @@
+- hosts: java
+  user: ansible
+
+  roles:
+    #- oracle_java8
+    - nginx

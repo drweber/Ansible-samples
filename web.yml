@@ -1,0 +1,13 @@
+# web.yml
+# ---
+- hosts: java
+  user: ansible
+
+  tasks:
+    - name:
+      package:                                                                      
+        name: "{{item.name}}"                                                   
+        state: "{{item.state}}"                                                 
+      with_items:                                                               
+        - { name: bash-completion, state: present }                             
+        - { name: git, state: present } 
