@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: z
+  description: Installs and Configures Nginx.
+  company:
+  license: license (BSD, MIT)
+  min_ansible_version: 1.8
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  categories:
+  - web
+dependencies: []

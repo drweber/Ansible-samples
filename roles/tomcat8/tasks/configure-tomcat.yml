@@ -8,15 +8,15 @@
       group=adm
     recurse=yes
   with_items:
-    - /opt/tomcat8/conf
-    - /opt/tomcat8/logs
-    - /opt/tomcat8/temp
-    - /opt/tomcat8/work
-    - /opt/tomcat8/webapps
+    - /opt/data/tomcat8/conf
+    - /opt/data//tomcat8/logs
+    - /opt/data/tomcat8/temp
+    - /opt/data/tomcat8/work
+    - /opt/data/tomcat8/webapps
 
 - name: set permissions for tomcat configuration files
   file:
-    path="/opt/tomcat8/conf"
+    path="/opt/data/tomcat8/conf"
     mode=u+rw,g+rw
     recurse=yes
     state=directory
@@ -35,15 +35,19 @@
      path="{{ item.path }}"
     state=link
   with_items:
+ #   -
+ #     src: /opt/tomcat8/conf
+ #     path: /etc/tomcat8/conf
     -
-      src: /opt/tomcat8/conf
-      path: /etc/tomcat8/conf
-    -
-      src: /opt/tomcat8/logs
+      src: /opt/data/tomcat8/logs
       path: /var/log/tomcat8
     -
-      src: /opt/tomcat8/webapps
+      src: /opt/data/tomcat8/webapps
       path: /var/lib/tomcat8/webapps
+
+- name: Changing owner for Tomcat working directory
+  command: find /opt/data/tomcat8/ -exec chown tomcat:tomcat {} \;
+  #command: find /opt/data/tomcat8/ -type f -exec chown tomcat:tomcat {} \;
 
 - name: generate systemd unit file for tomcat 8 - CentOS
   template:

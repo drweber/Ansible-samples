@@ -1,0 +1,14 @@
+---
+# tasks file RedHat
+
+- name: Enable nginx repo.
+  template:
+    src: nginx.repo.j2
+    dest: /etc/yum.repos.d/nginx.repo
+    owner: root
+    group: root
+    mode: 0644
+  when: nginx_repo_enable
+
+- name: Ensure nginx is installed.
+  yum: name=nginx state=installed

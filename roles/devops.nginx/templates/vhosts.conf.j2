@@ -1,0 +1,38 @@
+{% for vhost in nginx_vhosts %}
+####################
+{% if vhost.upstreams is defined %}
+{% for upstream in vhost.upstreams %}
+upstream {{ upstream.name }} {
+{% if upstream.strategy is defined %}
+    {{ upstream.strategy }};
+{% endif %}
+{% for server in upstream.servers %}
+    server {{ server }};
+{% endfor %}
+}
+{% endfor %}
+{% endif %}
+
+server {
+    listen {{ vhost.listen | default('80') }};
+    server_name {{ vhost.server_name | default('localhost') }};
+
+    root {{ vhost.root }};
+    index {{ vhost.index | default('index.html index.htm') }};
+
+{% if vhost.error_page is defined %}
+    error_page {{ vhost.error_page }};
+{% endif %}
+{% if vhost.access_log is defined %}
+    access_log {{ vhost.access_log }};
+{% endif %}
+{% if vhost.return is defined %}
+    return {{ vhost.return }};
+{% endif %}
+
+{% if vhost.extra_parameters is defined %}
+    {{ vhost.extra_parameters }}
+{% endif %}
+}
+
+{% endfor %}

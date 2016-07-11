@@ -1,0 +1,51 @@
+user  {{ nginx_user }};
+
+error_log  {{ nginx_error_log }};
+pid        /var/run/nginx.pid;
+
+worker_processes  {{ nginx_worker_processes }};
+
+events {
+    worker_connections  {{ nginx_worker_connections }};
+{% if nginx_use %}
+    use {{ nginx_use }};
+{% endif %}
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  {{ nginx_access_log }};
+
+    sendfile        {{ nginx_sendfile }};
+    tcp_nopush      {{ nginx_tcp_nopush }};
+    tcp_nodelay     {{ nginx_tcp_nodelay }};
+    keepalive_timeout  {{ nginx_keepalive_timeout }};
+    types_hash_max_size {{ nginx_types_hash_max_size }};
+
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+{% if nginx_client_max_body_size %}
+    client_max_body_size {{ nginx_client_max_body_size }};
+{% endif %}
+
+    #gzip  on;
+
+{% if nginx_proxy_cache_path %}
+    proxy_cache_path {{ nginx_proxy_cache_path }};
+{% endif %}
+
+{% if nginx_conf_extra_parameters %}
+{%  for parameters in nginx_conf_extra_parameters %}
+    {{ parameters }};
+{% endfor %}
+{% endif %}
+
+    include {{ nginx_conf_path }}/*.conf;
+{% if nginx_conf_path != nginx_vhost_path %}
+    include {{ nginx_vhost_path }}/*.conf;
+{% endif %}
+}

@@ -17,12 +17,12 @@
 
 - name: ensure tomcat 8 installation directory exists
   file:
-     path=/opt/tomcat8
+     path=/opt/data/tomcat8
     state=directory
 
 - name: extract tomcat from installation archive
-  command: tar xf /tmp/tomcat.tar.gz -C /opt/tomcat8 --strip-components=1
-    creates=/opt/tomcat8/LICENSE
+  command: tar xf /tmp/tomcat.tar.gz -C /opt/data/tomcat8 --strip-components=1
+    creates=/opt/data/tomcat8/LICENSE
 
 - name: clean up tomcat download
   file:

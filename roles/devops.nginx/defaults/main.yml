@@ -1,0 +1,53 @@
+---
+# defaults file nginx
+
+nginx_repo_enable: true
+nginx_repo_baseurl: http://nginx.org/packages/centos/{{ ansible_distribution_major_version }}/$basearch/
+nginx_remove_default_vhost: false
+
+nginx_worker_processes: "auto"
+nginx_worker_connections: "1024"
+nginx_use: ""
+nginx_error_log: "/var/log/nginx/error.log warn"
+nginx_access_log: "/var/log/nginx/access.log main"
+nginx_sendfile: "on"
+nginx_tcp_nopush: "on"
+nginx_tcp_nodelay: "on"
+nginx_keepalive_timeout: "65"
+nginx_types_hash_max_size: "2048"
+nginx_client_max_body_size: ""
+nginx_proxy_cache_path: ""
+
+nginx_conf_extra_parameters: []
+
+nginx_vhosts: []
+# Example vhost below, showing all available options:
+# - listen: "80 default_server" # default: "80"
+#   server_name: "example.com" # default: "localhost"
+#   root: "/var/www/example.com" # default: N/A
+#   index: "index.html index.htm" # default: "index.html index.htm"
+#
+#   # Properties that are only added if defined:
+#   error_page: ""
+#   access_log: ""
+#   return: ""
+#   upstreams:
+#     - name: test
+#       strategy: "ip_hash"
+#       servers:
+#         - srv1.test.com
+#         - srv2.test.com
+#   extra_parameters: "" # Can be used to add extra config blocks (multiline).
+#     location ~ \.php$ {
+#         root           html;
+#         fastcgi_pass   127.0.0.1:9000;
+#         fastcgi_index  index.php;
+#         fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+#         include        fastcgi_params;
+#     }
+
+nginx_vhosts_files: []
+# To copy custom conf files to server
+# Examples
+# nginx_vhosts_files:
+#   - test

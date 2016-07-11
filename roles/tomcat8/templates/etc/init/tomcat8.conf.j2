@@ -11,8 +11,8 @@ description "Apache Tomcat 8 java servlet container"
   setuid tomcat
   setgid tomcat
 
-  env CATALINA_HOME=/opt/tomcat8
-  env CATALINA_BASE=/opt/tomcat8
+  env CATALINA_HOME=/opt/data/tomcat8
+  env CATALINA_BASE=/opt/data/tomcat8
   env CATALINA_OPTS="-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
   env JAVA_OPTS="-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
 

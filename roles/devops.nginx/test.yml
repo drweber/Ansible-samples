@@ -1,0 +1,49 @@
+---
+# test file
+
+- name: Install Nginx.
+  hosts: servers
+  roles:
+    - role: ansible-role-nginx
+      nginx_conf_extra_parameters:
+        - server_names_hash_bucket_size 64
+      nginx_vhosts:
+        - listen: "8081"
+          server_name: "localhost"
+          root: "/var/www/"
+          upstreams:
+            - name: test01
+              strategy: "ip_hash"
+              servers:
+                - srv1.test.com
+                - srv2.test.com
+          extra_parameters: |
+            location / {
+                proxy_pass_header Server;
+                proxy_set_header Host $http_host;
+                proxy_redirect off;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Scheme $scheme;
+                proxy_pass http://test01;
+            }
+        - listen: "8082"
+          server_name: "localhost"
+          root: "/var/www/"
+          upstreams:
+            - name: test02
+              strategy: "ip_hash"
+              servers:
+                - srv3.test.com
+                - srv4.test.com
+          extra_parameters: |
+            location / {
+                proxy_pass_header Server;
+                proxy_set_header Host $http_host;
+                proxy_redirect off;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Scheme $scheme;
+                proxy_pass http://test02;
+            }
+
+      nginx_vhosts_files:
+        - test

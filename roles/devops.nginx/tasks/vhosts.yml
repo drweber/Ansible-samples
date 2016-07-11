@@ -1,0 +1,25 @@
+---
+# tasks file for nginx vhosts
+
+- name: Remove default nginx vhost config file (if configured).
+  file:
+    path: "{{ nginx_default_vhost_path }}"
+    state: absent
+  when: nginx_remove_default_vhost
+  notify: restart nginx
+
+- name: Add managed vhost config file (if any vhosts are configured).
+  template:
+    src: vhosts.conf.j2
+    dest: "{{ nginx_vhost_path }}/vhosts.conf"
+    mode: 0644
+  when: nginx_vhosts
+  notify: restart nginx
+
+- name: Add custom vhost config file (if any vhosts conf files are configured)
+  copy:
+    src: "{{ item }}.conf"
+    dest: "{{ nginx_vhost_path }}/{{ item }}.conf"
+    mode: 0644
+  with_items: nginx_vhosts_files
+  when: nginx_vhosts_files is defined
