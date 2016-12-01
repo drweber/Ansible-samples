@@ -51,4 +51,4 @@ None.
 
 ## Author Information
 
-z
+Mikalai Karytka aka DrWeber

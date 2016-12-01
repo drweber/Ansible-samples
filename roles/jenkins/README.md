@@ -1,7 +1,5 @@
 # Ansible Role: Jenkins CI
 
-[![Build Status](https://travis-ci.org/repleo/ansible-role-jenkins.svg?branch=master)](https://travis-ci.org/repleo/ansible-role-jenkins)
-
 Installs Jenkins CI on RHEL/CentOS and Debian/Ubuntu servers.
 
 ## Requirements
@@ -71,6 +69,8 @@ MIT (Expat) / BSD
 
 ## Author Information
 
-Thir role is adapted for Oracle Java by Jeroen Arnoldus, [Repleo](http://www.repleo.nl)
+This role is adapted for Oracle Java by Jeroen Arnoldus, [Repleo](http://www.repleo.nl)
+
+This role was modified and improved by Mikalai Karytka, [DrWeber](https://github.com/drweber)
 
 This role was created in 2014 by [Jeff Geerling](http://jeffgeerling.com/), author of [Ansible for DevOps](http://ansiblefordevops.com/).
